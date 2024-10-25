@@ -16,9 +16,3 @@
 
 **Descrição:**
 
-[Breve descrição do jogo]
-
-**Como compilar:**
-
-```bash
-make
