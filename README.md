@@ -5,7 +5,7 @@
 * Arthur Barros Meirinho 
 * João Vítor do Sacramento
 
-**github**
+**github**:
 * @arthurbarros1
 * @JvSac
 
