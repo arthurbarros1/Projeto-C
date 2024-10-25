@@ -6,7 +6,7 @@
 *  
 
 **github**
-@arthurbarros1
+* @arthurbarros1
 
 
 **Disciplina:** Programação Imperativa e Funcional - 2024.2
