@@ -2,9 +2,12 @@
 
 **Membros**:
 
-* Arthur Barros Meirinho github: (@arthurbarros1)
-* [Nome do colega 1] (@usuario_colega_1)
-* 
+* Arthur Barros Meirinho 
+*  
+
+**github**
+@arthurbarros1
+
 
 **Disciplina:** Programação Imperativa e Funcional - 2024.2
 
