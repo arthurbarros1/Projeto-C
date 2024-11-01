@@ -20,7 +20,7 @@
 
 **Descrição:**
 
-**Space Invaders:**
+**Space Invaders**
 
 Defenda a Terra de uma invasão alienígena neste jogo de tiro clássico reimaginado para o seu terminal!
 
