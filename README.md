@@ -28,9 +28,9 @@ Controle uma nave espacial, destrua hordas de aliens e salve o planeta.
 
 **Recursos:**
 
-Controles simples (setas e barra de espaço).
-Visual retro com gráficos minimalistas.
-Placar de pontuação.
+* Controles simples (setas e barra de espaço).
+* Visual retro com gráficos minimalistas.
+* Placar de pontuação.
 
 **Como jogar:**
 
