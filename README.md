@@ -21,6 +21,7 @@
 **Descrição:**
 
 **Space Invaders**
+
 Defenda a Terra de uma invasão alienígena neste jogo de tiro clássico reimaginado para o seu terminal!
 
 Controle uma nave espacial, destrua hordas de aliens e salve o planeta.
