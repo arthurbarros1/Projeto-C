@@ -20,19 +20,19 @@
 
 **Descrição:**
 
-**Space Invaders**
+**Space Invaders:**
 
 Defenda a Terra de uma invasão alienígena neste jogo de tiro clássico reimaginado para o seu terminal!
 
 Controle uma nave espacial, destrua hordas de aliens e salve o planeta.
 
-**Recursos**:
+**Recursos:**
 
 Controles simples (setas e barra de espaço).
 Visual retro com gráficos minimalistas.
 Placar de pontuação.
 
-**Como jogar**:
+**Como jogar:**
 
 Mova a nave com as setas esquerda/direita e atire com a barra de espaço. Destrua todos os aliens antes que eles cheguem à Terra.
 
