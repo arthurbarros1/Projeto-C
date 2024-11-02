@@ -1,56 +1,30 @@
-
-/**
- * timer.c
- * Created on Aug, 23th 2023
- * Author: Tiago Barros
- * Based on "From C to C++ course - 2002"
-*/
-
+#include <time.h>
 #include "timer.h"
-#include <sys/time.h>
-#include <stdio.h>
 
-static struct timeval timer, now;
-static int delay = -1;
+static struct timespec start;
+static int delayMs;
 
-void timerInit(int valueMilliSec)
-{
-    delay = valueMilliSec;
-    gettimeofday(&timer, NULL);
+// Inicializa o temporizador com o delay em milissegundos
+void timerInit(int delay) {
+    delayMs = delay;
+    clock_gettime(CLOCK_REALTIME, &start);
 }
 
-void timerDestroy()
-{
-    delay = -1;
-}
-
-void timerUpdateTimer(int valueMilliSec)
-{
-    delay = valueMilliSec;
-    gettimeofday(&timer, NULL);
-}
-
-int getTimeDiff()
-{
-    gettimeofday(&now, NULL);
-    long diff = (((now.tv_sec - timer.tv_sec) * 1000000) + now.tv_usec - timer.tv_usec)/1000;
-    return (int) diff;
-}
-
-int timerTimeOver()
-{
-    int ret = 0;
-
-    if (getTimeDiff() > delay)
-    {
-        ret = 1;
-        gettimeofday(&timer, NULL);
+// Verifica se o tempo de delay se passou desde o último reset
+int timerTimeOver() {
+    struct timespec now;
+    clock_gettime(CLOCK_REALTIME, &now);
+    
+    long diff = (now.tv_sec - start.tv_sec) * 1000 + (now.tv_nsec - start.tv_nsec) / 1000000;
+    
+    if (diff >= delayMs) {
+        start = now; // Reseta o tempo
+        return 1;
     }
-
-    return ret;
+    return 0;
 }
 
-void timerPrint()
-{
-    printf("Timer:  %d", getTimeDiff());
+// Destroi o temporizador (não é necessário liberar nada)
+void timerDestroy() {
+    // Sem operação para destruir
 }

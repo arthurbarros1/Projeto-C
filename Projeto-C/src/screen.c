@@ -1,87 +1,36 @@
-/**
- * screen.c
- * Created on Aug, 23th 2023
- * Author: Tiago Barros
- * Based on "From C to C++ course - 2002"
-*/
-
+#include <stdio.h>
 #include "screen.h"
 
-void screenDrawBorders() 
-{
-    char hbc = BOX_HLINE;
-    char vbc = BOX_VLINE;
-    
+// Inicializa a tela e ativa o uso de cores, se suportado
+void screenInit(int enableColor) {
+    if (enableColor) {
+        printf("\033[0m"); // Reset color
+    }
     screenClear();
-    screenBoxEnable();
-    
-    screenGotoxy(MINX, MINY);
-    printf("%c", BOX_UPLEFT);
-
-    for (int i=MINX+1; i<MAXX; i++)
-    {
-        screenGotoxy(i, MINY);
-        printf("%c", hbc);
-    }
-    screenGotoxy(MAXX, MINY);
-    printf("%c", BOX_UPRIGHT);
-
-    for (int i=MINY+1; i<MAXY; i++)
-    {
-        screenGotoxy(MINX, i);
-        printf("%c", vbc);
-        screenGotoxy(MAXX, i);
-        printf("%c", vbc);
-    }
-
-    screenGotoxy(MINX, MAXY);
-    printf("%c", BOX_DWNLEFT);
-    for (int i=MINX+1; i<MAXX; i++)
-    {
-        screenGotoxy(i, MAXY);
-        printf("%c", hbc);
-    }
-    screenGotoxy(MAXX, MAXY);
-    printf("%c", BOX_DWNRIGHT);
-
-    screenBoxDisable();
-    
 }
 
-void screenInit(int drawBorders)
-{
-    screenClear();
-    if (drawBorders) screenDrawBorders();
-    screenHomeCursor();
-    screenHideCursor();
+// Define as cores de texto e fundo
+void screenSetColor(int fg, int bg) {
+    printf("\033[%d;%dm", fg, bg + 10);
 }
 
-void screenDestroy()
-{
-    printf("%s[0;39;49m", ESC); // Reset colors
-    screenSetNormal();
-    screenClear();
-    screenHomeCursor();
-    screenShowCursor();
+// Posiciona o cursor na posição (x, y)
+void screenGotoxy(int x, int y) {
+    printf("\033[%d;%dH", y, x);
 }
 
-void screenGotoxy(int x, int y)
-{
-    x = ( x<0 ? 0 : x>=MAXX ? MAXX-1 : x);
-    y = ( y<0 ? 0 : y>MAXY ? MAXY : y);
-    
-    printf("%s[f%s[%dB%s[%dC", ESC, ESC, y, ESC, x);
+// Limpa a tela
+void screenClear() {
+    printf("\033[2J");
+    screenGotoxy(0, 0);
 }
 
-void screenSetColor( screenColor fg, screenColor bg)
-{
-    char atr[] = "[0;";
+// Atualiza a tela (no nosso caso, apenas força um refresh)
+void screenUpdate() {
+    fflush(stdout);
+}
 
-    if ( fg > LIGHTGRAY )
-    {
-        atr[1] = '1';
-		fg -= 8;
-    }
-
-    printf("%s%s%d;%dm", ESC, atr, fg+30, bg+40);
+// Restaura as configurações da tela e reinicializa a cor
+void screenDestroy() {
+    printf("\033[0m");
 }
