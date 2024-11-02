@@ -1,89 +1,153 @@
-
-/**
- * main.h
- * Created on Aug, 23th 2023
- * Author: Tiago Barros
- * Based on "From C to C++ course - 2002"
-*/
-
 #include <string.h>
-
 #include "screen.h"
 #include "keyboard.h"
 #include "timer.h"
 
-int x = 34, y = 12;
-int incX = 1, incY = 1;
+#define MAX_INVADERS 5
+#define PLAYER_X_START 34
+#define PLAYER_Y 23
 
-void printHello(int nextX, int nextY)
-{
-    screenSetColor(CYAN, DARKGRAY);
-    screenGotoxy(x, y);
-    printf("           ");
-    x = nextX;
-    y = nextY;
-    screenGotoxy(x, y);
-    printf("Hello World");
+typedef struct {
+    int x, y;
+    int alive;
+} Invader;
+
+typedef struct {
+    int x, y;
+    int active;
+} Bullet;
+
+Invader invaders[MAX_INVADERS];
+Bullet bullet;
+int playerX = PLAYER_X_START;
+int gameRunning = 1;
+
+void initGame() {
+    
+    for (int i = 0; i < MAX_INVADERS; i++) {
+        invaders[i].x = 10 + i * 6;
+        invaders[i].y = 5;
+        invaders[i].alive = 1;
+    }
+
+    
+    playerX = PLAYER_X_START;
+
+    
+    bullet.active = 0;
 }
 
-void printKey(int ch)
-{
-    screenSetColor(YELLOW, DARKGRAY);
-    screenGotoxy(35, 22);
-    printf("Key code :");
-
-    screenGotoxy(34, 23);
-    printf("            ");
-    
-    if (ch == 27) screenGotoxy(36, 23);
-    else screenGotoxy(39, 23);
-
-    printf("%d ", ch);
-    while (keyhit())
-    {
-        printf("%d ", readch());
+void drawInvaders() {
+    screenSetColor(GREEN, DARKGRAY);
+    for (int i = 0; i < MAX_INVADERS; i++) {
+        if (invaders[i].alive) {
+            screenGotoxy(invaders[i].x, invaders[i].y);
+            printf("X");
+        }
     }
 }
 
-int main() 
-{
-    static int ch = 0;
+void drawPlayer() {
+    screenSetColor(YELLOW, DARKGRAY);
+    screenGotoxy(playerX, PLAYER_Y);
+    printf("A"); 
+}
 
+void drawBullet() {
+    if (bullet.active) {
+        screenSetColor(RED, DARKGRAY);
+        screenGotoxy(bullet.x, bullet.y);
+        printf("|");
+    }
+}
+
+void moveInvaders() {
+    for (int i = 0; i < MAX_INVADERS; i++) {
+        if (invaders[i].alive) {
+            invaders[i].y += 1;
+            if (invaders[i].y >= PLAYER_Y) {
+                gameRunning = 0; 
+            }
+        }
+    }
+}
+
+void moveBullet() {
+    if (bullet.active) {
+        bullet.y -= 1;
+        if (bullet.y < 1) bullet.active = 0;
+
+        
+        for (int i = 0; i < MAX_INVADERS; i++) {
+            if (invaders[i].alive && bullet.active && bullet.x == invaders[i].x && bullet.y == invaders[i].y) {
+                invaders[i].alive = 0;
+                bullet.active = 0;
+            }
+        }
+    }
+}
+
+void shootBullet() {
+    if (!bullet.active) {
+        bullet.x = playerX;
+        bullet.y = PLAYER_Y - 1;
+        bullet.active = 1;
+    }
+}
+
+void handleInput(int ch) {
+    if (ch == 'a' && playerX > 1) playerX -= 1;
+    if (ch == 'd' && playerX < MAXX - 1) playerX += 1;
+    if (ch == 'w') shootBullet();
+}
+
+int main() {
+    int ch = 0;
     screenInit(1);
     keyboardInit();
     timerInit(50);
 
-    printHello(x, y);
-    screenUpdate();
+    initGame();
 
-    while (ch != 10) //enter
-    {
-        // Handle user input
-        if (keyhit()) 
-        {
+    while (gameRunning) {
+        if (keyhit()) {
             ch = readch();
-            printKey(ch);
-            screenUpdate();
+            handleInput(ch);
         }
 
-        // Update game state (move elements, verify collision, etc)
-        if (timerTimeOver() == 1)
-        {
-            int newX = x + incX;
-            if (newX >= (MAXX -strlen("Hello World") -1) || newX <= MINX+1) incX = -incX;
-            int newY = y + incY;
-            if (newY >= MAXY-1 || newY <= MINY+1) incY = -incY;
+        if (timerTimeOver() == 1) {
+            moveInvaders();
+            moveBullet();
 
-            printKey(ch);
-            printHello(newX, newY);
-
+            screenClear();
+            drawInvaders();
+            drawPlayer();
+            drawBullet();
             screenUpdate();
+
+            
+            int allDead = 1;
+            for (int i = 0; i < MAX_INVADERS; i++) {
+                if (invaders[i].alive) {
+                    allDead = 0;
+                    break;
+                }
+            }
+            if (allDead) {
+                gameRunning = 0;
+            }
         }
     }
 
     keyboardDestroy();
     screenDestroy();
     timerDestroy();
+
+    if (gameRunning == 0) {
+        printf("Game Over!\n");
+    } else {
+        printf("You Win!\n");
+    }
 
     return 0;
 }
