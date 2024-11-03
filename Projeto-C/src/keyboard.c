@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "keyboard.h"
+#include <sys/select.h>
+
 
 static struct termios oldt, newt;
 
