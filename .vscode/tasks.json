@@ -11,7 +11,7 @@
                 "-I${workspaceFolder}/Projeto-C/include",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${workspaceFolder}/Projeto-C/bin/main"
             ],
             "options": {
                 "cwd": "${fileDirname}"
