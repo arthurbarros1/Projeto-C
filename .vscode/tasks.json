@@ -9,7 +9,10 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-I${workspaceFolder}/Projeto-C/include",
-                "${file}",
+                "${workspaceFolder}/Projeto-C/src/main.c",
+                "${workspaceFolder}/Projeto-C/src/screen.c",
+                "${workspaceFolder}/Projeto-C/src/keyboard.c",
+                "${workspaceFolder}/Projeto-C/src/timer.c",
                 "-o",
                 "${workspaceFolder}/Projeto-C/bin/main"
             ],
