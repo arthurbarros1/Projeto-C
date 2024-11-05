@@ -1,24 +1,23 @@
-# Projeto de Jogo em C
+# Space Invaders
 
-**Membros**:
+## Integrantes
 
 * Arthur Barros Meirinho 
 * João Vítor do Sacramento
 * Caio Marques Emerenciano
 * Pedro Campello Monteiro Maia
 
-**github**:
+### GitHub
 * @arthurbarros1
 * @JvSac
 * @caioduck
 * @pedrocmmaia
 
+#### Programação Imperativa e Funcional - 2024.2
 
-**Disciplina:** Programação Imperativa e Funcional - 2024.2
+##### CESAR School
 
-**Instituição:** CESAR School
-
-**Descrição:**
+###### Descrição
 
 **Space Invaders**
 
